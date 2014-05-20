@@ -225,24 +225,6 @@ public class ThemePackageHelper {
                                               Map<String, Boolean> capabilities) {
         PackageManager pm = context.getPackageManager();
         CharSequence labelName = pm.getApplicationLabel(pi.applicationInfo);
-        if (labelName == null) labelName = context.getString(R.string.unknown_app_name);
-
-        boolean isPresentableTheme = ThemePackageHelper.isPresentableTheme(capabilities);
-        ContentValues values = new ContentValues();
-        values.put(ThemesColumns.PKG_NAME, pi.packageName);
-        values.put(ThemesColumns.TITLE, labelName.toString());
-        values.put(ThemesColumns.DATE_CREATED, System.currentTimeMillis());
-        values.put(ThemesColumns.LAST_UPDATE_TIME, pi.lastUpdateTime);
-
-        String where = ThemesColumns.PKG_NAME + "=?";
-        String[] args = { pi.packageName };
-        context.getContentResolver().update(ThemesColumns.CONTENT_URI, values, where, args);
-    }
-
-    private static void updateLegacyIconPackInternal(Context context, PackageInfo pi,
-                                              Map<String, Boolean> capabilities) {
-        PackageManager pm = context.getPackageManager();
-        CharSequence labelName = pm.getApplicationLabel(pi.applicationInfo);
         if (labelName == null) labelName = "Unknown";
 
         boolean isPresentableTheme = ThemePackageHelper.isPresentableTheme(capabilities);
