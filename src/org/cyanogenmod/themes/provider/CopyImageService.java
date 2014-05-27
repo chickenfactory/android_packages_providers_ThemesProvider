@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.ThemesContract.ThemesColumns;
@@ -130,12 +129,12 @@ public class CopyImageService extends IntentService {
             File lockscreenOut = new File(imgDir, pkgName + ".lockscreen.jpg");
 
             FileOutputStream out = new FileOutputStream(homescreenOut);
-            Bitmap bmp = BitmapFactory.decodeStream(homescreen);
+            Bitmap bmp = BitmapUtils.loadBitmapWithBackouts(context, homescreen, 1);
             bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.close();
 
             out = new FileOutputStream(lockscreenOut);
-            bmp = BitmapFactory.decodeStream(lockscreen);
+            bmp = BitmapUtils.loadBitmapWithBackouts(context, lockscreen, 1);
             bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.close();
         } catch (IOException e) {
@@ -152,7 +151,7 @@ public class CopyImageService extends IntentService {
             File styleOut = new File(imgDir, pkgName + ".stylepreview.jpg");
 
             FileOutputStream out = new FileOutputStream(styleOut);
-            Bitmap bmp = BitmapFactory.decodeStream(stylepreview);
+            Bitmap bmp = BitmapUtils.loadBitmapWithBackouts(context, stylepreview, 1);
             bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.close();
         } catch (IOException e) {
