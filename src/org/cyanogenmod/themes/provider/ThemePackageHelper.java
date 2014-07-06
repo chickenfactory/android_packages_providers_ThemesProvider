@@ -25,7 +25,7 @@ import android.content.pm.ThemeInfo;
 import android.content.pm.ThemeUtils;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
-import android.content.res.CustomTheme;
+import android.content.res.ThemeConfig;
 import android.content.res.ThemeManager;
 import android.database.Cursor;
 import android.provider.ThemesContract;
@@ -354,20 +354,20 @@ public class ThemePackageHelper {
 
     private static void reapplyInstalledComponentsForTheme(Context context, String pkgName) {
         Configuration config = context.getResources().getConfiguration();
-        if (config == null || config.customTheme == null) return;
+        if (config == null || config.themeConfig == null) return;
 
         List<String> reApply = new LinkedList<String>(); // components to re-apply
         // Other packages such as wallpaper can be changed outside of themes
         // and are not tracked well by the provider. We only care to apply resources that may crash
         // the system if they are not reapplied.
-        CustomTheme themeConfig = config.customTheme;
-        if (pkgName.equals(themeConfig.getFontPackPkgName())) {
+        ThemeConfig themeConfig = config.themeConfig;
+        if (pkgName.equals(themeConfig.getFontPkgName())) {
             reApply.add(ThemesColumns.MODIFIES_FONTS);
         }
         if (pkgName.equals(themeConfig.getIconPackPkgName())) {
             reApply.add(ThemesColumns.MODIFIES_ICONS);
         }
-        if (pkgName.equals(themeConfig.getThemePackageName())) {
+        if (pkgName.equals(themeConfig.getOverlayPkgName())) {
             reApply.add(ThemesColumns.MODIFIES_OVERLAYS);
         }
 
